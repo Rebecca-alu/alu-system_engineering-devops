@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 - Page not found</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #1e1b4b, #7c3aed, #ec4899);
+    font-family: Georgia, "Times New Roman", serif; color: #fff; text-align: center; padding: 24px;
+  }
+  .card {
+    background: rgba(255,255,255,0.12); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.25); border-radius: 20px;
+    padding: 48px 40px; max-width: 520px; box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  }
+  .code { font-size: 110px; font-weight: bold; line-height: 1; letter-spacing: 6px;
+          animation: float 3s ease-in-out infinite; }
+  h1 { font-size: 26px; margin: 18px 0 10px; font-style: italic; }
+  p { opacity: 0.85; margin-bottom: 28px; font-family: Arial, sans-serif; }
+  a { display: inline-block; padding: 12px 28px; border-radius: 999px; background: #fff;
+      color: #7c3aed; text-decoration: none; font-family: Arial, sans-serif; font-weight: bold;
+      transition: transform .2s; }
+  a:hover { transform: scale(1.07); }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="code">404</div>
+    <h1>Ceci n'est pas une page</h1>
+    <p>The page you are looking for has vanished into thin air.</p>
+    <a href="/">Take me home</a>
+  </div>
+</body>
+</html>
