@@ -1,3 +1,4 @@
+
 #!/usr/bin/env bash
 # Installs Nginx and configures a custom HTTP response header.
 
