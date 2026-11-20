@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Installs Nginx and configures a custom HTTP response header.
+
+set -e
+
+apt-get update
+apt-get install -y nginx
+
+cat > /etc/nginx/conf.d/served_by.conf <<'EOF'
+add_header X-Served-By $hostname always;
+EOF
+
+nginx -t
+service nginx restart
+
