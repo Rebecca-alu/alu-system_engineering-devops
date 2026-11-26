@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-# Installs nginx, serves the root page, and adds a 301 redirect on /redirect_me
-sudo apt-get update -y
-sudo apt-get install -y nginx
-echo "Holberton School for the win!" | sudo tee /var/www/html/index.html > /dev/null
-echo "Holberton School for the win!" | sudo tee /var/www/html/index.nginx-debian.html > /dev/null
-CONF=/etc/nginx/sites-available/default
-grep -q "redirect_me" $CONF || sudo sed -i '/server_name _;/a location /redirect_me { return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4; }' $CONF
-sudo service nginx restart
+# Installs Nginx and makes /redirect_me return a 301 redirect to another page
+
+apt-get -y update
+apt-get -y install nginx
+echo "Holberton School for the win!" > /var/www/html/index.html
+if ! grep -q "redirect_me" /etc/nginx/sites-available/default
+then
+    sed -i '/server_name _;/a \\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}' /etc/nginx/sites-available/default
+fi
+service nginx restart
