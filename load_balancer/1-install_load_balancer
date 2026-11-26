@@ -1,22 +1,14 @@
 #!/usr/bin/env bash
-# Installs and configures HAProxy to distribute traffic between two web servers.
+# Installs HAProxy and sends traffic to web-01 and web-02 using roundrobin
 
-set -e
+apt-get -y update
+apt-get -y install haproxy
 
-apt-get update
-apt-get install -y haproxy
-
-if grep -q '^ENABLED=' /etc/default/haproxy; then
-    sed -i 's/^ENABLED=.*/ENABLED=1/' /etc/default/haproxy
-else
-    echo 'ENABLED=1' >> /etc/default/haproxy
-fi
-
-cat > /etc/haproxy/haproxy.cfg <<'EOF'
+cat > /etc/haproxy/haproxy.cfg <<CONFIG
 global
     log /dev/log local0
     log /dev/log local1 notice
-    maxconn 2048
+    chroot /var/lib/haproxy
     user haproxy
     group haproxy
     daemon
@@ -25,24 +17,19 @@ defaults
     log global
     mode http
     option httplog
-    option dontlognull
     timeout connect 5000
     timeout client 50000
     timeout server 50000
 
 frontend http_front
     bind *:80
-    default_backend web_backend
+    default_backend http_back
 
-backend web_backend
+backend http_back
     balance roundrobin
-    option httpchk GET /
-    server web-01 3.8.48.55:80 check
-    server web-02 3.10.235.40:80 check
-EOF
+    server 7250-web-01 3.8.48.55:80 check
+    server 7250-web-02 3.10.235.40:80 check
+CONFIG
 
-haproxy -c -f /etc/haproxy/haproxy.cfg
-
-update-rc.d haproxy defaults
+echo "ENABLED=1" >> /etc/default/haproxy
 service haproxy restart
-
